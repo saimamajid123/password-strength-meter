@@ -1,100 +1,73 @@
-#🔐 projeect 02: password strength Meter Sir Zia projeect 3
-
-#📌 Objective:
-#Build a password strength Meter in python that evalates a user's pased on security rles.
-#The program will:
-
-#Analyze password based on length, character types, and patterns.
-#Assign a strength score (weak, Woderate, strong).
-#Provide feedback to improve weak password.
-#Use contrl flow, type casting, strings, and functions.
-
-# 🔷 Requirements
-
-#1. Password Strength Criteria
-
-#A strong password should:
-#✅ Be at least 8 characters long
-#✅ Contain uppercase & lowercase letters
-#✅ include at least one digit (0-9)
-#✅ Have one special character (!@#$%^&*#)
-
-#2. Scoring System
-
-#weak (score: 1-2) ➡ short, missing key elements
-#Moderatate (Score: 3-4) ➡ Good but missing some security features
-#Strong (Score: 5 ➡ Meets all criteria)
-
-#3. feedback System
-
-#if the password is weak, suggest improvements.
-#if the password is Strong, display a success message.
+#🔐 Project 02: Password Strength Meter - Inspired by Sir Zia's Python Projects
 
 import re
-import stremlit as st 
+import streamlit as st
 
-#page styling
-st.set_page_config(page_title="password strength checker By Saima Majid", page_icon="🌘"layot="centerec")
-#custom css
+# Page styling
+st.set_page_config(page_title="Password Strength Checker by Saima Majid", page_icon="🌘", layout="centered")
+
+# Custom CSS
 st.markdown("""
 <style>
     .main {text-align: center;}
-    .stTextinput {width: 60% !important; margin: auto; }
-    .stBtton button {width: 50%; background-color #4CAF50; color: white; font-size: 18px;}
-    .stButton button:hover { background-color: #45a049;}
-    <style>
-    """, unsafe_allow_html=True)
+    .stTextInput {width: 60% !important; margin: auto; }
+    .stButton button {width: 50%; background-color: #4CAF50; color: white; font-size: 18px;}
+    .stButton button:hover {background-color: #45a049;}
+</style>
+""", unsafe_allow_html=True)
 
-    #page title and decription
-    st.title("🔏 Password Strength Generator")
-    st.write("Enter yor password below to check its security level. 🔍")
+# Page Title and Description
+st.title("🔏 Password Strength Meter")
+st.write("Enter your password below to check its security level. 🔍")
 
-    #fnction to check password strength
-    def check_password_strength(password):
-        score = 0
-        feedback = []
+# Function to check password strength
+def check_password_strength(password):
+    score = 0
+    feedback = []
 
-        if len(password) >= 8:
-            score += 1 #increased score by 1
-        else:
-            feedback.append("❌ password should be **atleast 8 character long**cross")
+    # Length check
+    if len(password) >= 8:
+        score += 1
+    else:
+        feedback.append("❌ Password should be **at least 8 characters long**.")
 
-        if re.search(r"[A-Z]", password) and re.search(r"[a-z]", Password):
-            score += 1
-        else:
-            feedback.append("❌ password should include **both uppercase (A-Z) and lowercase (a-z) letters**.") 
+    # Uppercase and lowercase
+    if re.search(r"[A-Z]", password) and re.search(r"[a-z]", password):
+        score += 1
+    else:
+        feedback.append("❌ Password should include **both uppercase (A-Z) and lowercase (a-z) letters**.")
 
-        if re.search(r"/d", password):
-            score += 1
-            else:
-                feedback.append("❌ password should include ** at least one number (0-9) **."") 
+    # Digit check
+    if re.search(r"\d", password):
+        score += 1
+    else:
+        feedback.append("❌ Password should include **at least one number (0-9)**.")
 
-            #special characters
-            if re.search(r"[!@#$%^&*]", password) :
-                score += 1
-            else:
-                feedback.append("❌ include **at least one special characte (!@#$%^&*)**") 
+    # Special characters
+    if re.search(r"[!@#$%^&*]", password):
+        score += 1
+    else:
+        feedback.append("❌ Include **at least one special character (!@#$%^&*)**.")
 
-            #display password strength results
-            if score == 4:
-                st.success("✅ **strong password** - your password is secre.") 
-            elif score == 3 :
-                st.info("⚠️ **moderate password** - Consider improving security by adding feature") 
-            else:
-                st.error("❌ **week password** - follow the suggestion below to strength it, ")    
+    # Display password strength results
+    if score == 4:
+        st.success("✅ **Strong Password** - Your password is secure.")
+    elif score == 3:
+        st.info("⚠️ **Moderate Password** - Consider improving security by adding more features.")
+    else:
+        st.error("❌ **Weak Password** - Follow the suggestions below to strengthen it.")
 
-           #feedback
-           if feedback:
-               with st.expander("🔍**improve your password** ")
-                   for item in feedback:
-                       st.write(item) 
-            password = st.text_input"(Enter your password:", type="password", help="Ensure your password is strong 🔐")  
+    # Feedback
+    if feedback:
+        with st.expander("🔍 **Improve Your Password**"):
+            for item in feedback:
+                st.write(item)
 
-            #Button working
-            if st.button("check strength"):
-                if password:
-                    check_password_strength(password)
-            else:
-                st.working("⚠️ please enter a Password first!")  #show warning if password empty                                
-    
-    
+# Input and Button
+password = st.text_input("Enter your password:", type="password", help="Ensure your password is strong 🔐")
+
+if st.button("Check Strength"):
+    if password:
+        check_password_strength(password)
+    else:
+        st.warning("⚠️ Please enter a password first!")
